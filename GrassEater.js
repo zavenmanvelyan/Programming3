@@ -38,8 +38,8 @@ class GrassEater {
         this.energy--;
         if (this.energy > 0) {
             this.getNewCoordinates();
-            var tf = random(this.chooseCell(1));
-            if (tf == undefined) {
+            var grasses = random(this.chooseCell(1));
+            if (grasses == undefined) {
                 var newc = random(this.chooseCell(0));
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 2;
@@ -63,15 +63,15 @@ class GrassEater {
     }
     eat() {
         this.getNewCoordinates();
-        var newcg = random(this.chooseCell(1));
-        if (newcg) {
+        var grass = random(this.chooseCell(1));
+        if (grass) {
             this.energy += 2;
             matrix[this.y][this.x] = 0;
-            matrix[newcg[1]][newcg[0]] = 2;
-            this.y = newcg[1];
-            this.x = newcg[0];
-            let newX = newcg[0];
-            let newY = newcg[1];
+            matrix[grass[1]][grass[0]] = 2;
+            this.y = grass[1];
+            this.x = grass[0];
+            let newX = grass[0];
+            let newY = grass[1];
             for (var i in grassArr) {
                 if (newX == grassArr[i].x && newY == grassArr[i].y) {
                     grassArr.splice(i, 1);

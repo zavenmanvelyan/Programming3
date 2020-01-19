@@ -36,9 +36,9 @@ class Wolf {
     move() {
         this.energy--;
         if (this.energy > 0) {
-            var ft = random(this.chooseCell(2));
-            var jh = random(this.chooseCell(4));
-            if (ft == undefined && jh == undefined) {
+            var grasseater = random(this.chooseCell(2));
+            var bomber = random(this.chooseCell(4));
+            if (grasseater == undefined && bomber == undefined) {
                 var newc = random(this.chooseCell(0));
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 3;
@@ -61,29 +61,29 @@ class Wolf {
     }
     eat() {
         this.getNewCoordinates();
-        var newc = random(this.chooseCell(2));
-        var newce = random(this.chooseCell(4));
-        if (newc) {
+        var grasseater = random(this.chooseCell(2));
+        var bomber = random(this.chooseCell(4));
+        if (grasseater) {
             this.energy += 2;
-            matrix[newc[1]][newc[0]] = 3;
+            matrix[grasseater[1]][grasseater[0]] = 3;
             matrix[this.y][this.x] = 0;
-            this.y = newc[1];
-            this.x = newc[0];
+            this.y = grasseater[1];
+            this.x = grasseater[0];
             for (var g in grassEaterArr) {
-                if (grassEaterArr[g].x == newc[0] && grassEaterArr[g].y == newc[1]) {
+                if (grassEaterArr[g].x == grasseater[0] && grassEaterArr[g].y == grasseater[1]) {
                     grassEaterArr.splice(g, 1);
                     break;
                 }
             }
         }
-        else if (newce) {
+        else if (bomber) {
             this.energy += 2;
-            matrix[newce[1]][newce[0]] = 3;
+            matrix[bomber[1]][bomber[0]] = 3;
             matrix[this.y][this.x] = 0;
-            this.y = newce[1];
-            this.x = newce[0];
+            this.y = bomber[1];
+            this.x = bomber[0];
             for (var j in bomberArr) {
-                if (bomberArr[j].x == newce[0] && bomberArr[j].y == newce[1]) {
+                if (bomberArr[j].x == bomber[0] && bomberArr[j].y == bomber[1]) {
                     bomberArr.splice(j, 1);
                     break;
                 }
