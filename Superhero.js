@@ -1,16 +1,12 @@
-class Superhero {
+class Superhero extends LivingCreature {
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
+        super(x, y, index);
         this.energy = 14;
         this.multiply = 0;
-        this.index = index;
         this.directions = [];
         this.changingframe = 0;
         this.savingframe = 0;
     }
-
-
 
 
     getNewCoordinates() {
@@ -43,30 +39,20 @@ class Superhero {
     }
 
 
-
-
-    chooseCell(character) {
+    chooseCell(character){
         this.getNewCoordinates();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        return super.chooseCell(character);
     }
+
+    
     move() {
         if (this.energy > 0) {
             this.energy--;
             this.getNewCoordinates();
-            var ft = random(this.chooseCell(3));
-            var tf = random(this.chooseCell(4));
-            if (ft == undefined && tf == undefined) {
-                var newc = random(this.chooseCell(0));
+            var wolf = random(super.chooseCell(3));
+            var bomber = random(super.chooseCell(4));
+            if (wolf == undefined && bomber == undefined) {
+                var newc = random(super.chooseCell(0));
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 5;
                     matrix[this.y][this.x] = 0;
@@ -79,9 +65,11 @@ class Superhero {
             }
         }
     }
+
+
     mul() {
         this.getNewCoordinates();
-        var newCell = random(this.chooseCell(0));
+        var newCell = random(super.chooseCell(0));
         if (this.energy >= 24 && newCell) {
             var newSuperhero = new Superhero(newCell[0], newCell[1], this.index);
             superheroArr.push(newSuperhero);
@@ -89,31 +77,33 @@ class Superhero {
             this.energy = 14;
         }
     }
+
+
     eat() {
         this.getNewCoordinates();
-        var newc = random(this.chooseCell(3));
-        var newce = random(this.chooseCell(4));
-        if (newc) {
+        var wolf = random(super.chooseCell(3));
+        var bomber = random(super.chooseCell(4));
+        if (wolf) {
             this.energy += 3;
-            matrix[newc[1]][newc[0]] = 5;
+            matrix[wolf[1]][wolf[0]] = 5;
             matrix[this.y][this.x] = 0;
-            this.y = newc[1];
-            this.x = newc[0];
+            this.y = wolf[1];
+            this.x = wolf[0];
             for (var g in wolfArr) {
-                if (wolfArr[g].x == newc[0] && wolfArr[g].y == newc[1]) {
+                if (wolfArr[g].x == wolf[0] && wolfArr[g].y == wolf[1]) {
                     wolfArr.splice(g, 1);
                     break;
                 }
             }
         }
-        else if (newce) {
+        else if (bomber) {
             this.energy += 3;
-            matrix[newce[1]][newce[0]] = 5;
+            matrix[bomber[1]][bomber[0]] = 5;
             matrix[this.y][this.x] = 0;
-            this.y = newce[1];
-            this.x = newce[0];
+            this.y = bomber[1];
+            this.x = bomber[0];
             for (var j in bomberArr) {
-                if (bomberArr[j].x == newce[0] && bomberArr[j].y == newce[1]) {
+                if (bomberArr[j].x == bomber[0] && bomberArr[j].y == bomber[1]) {
                     bomberArr.splice(j, 1);
                     break;
                 }
@@ -124,12 +114,13 @@ class Superhero {
         }
     }
 
+
     changingcharacter() {
         this.changingframe++;
         if (this.energy > 0 && this.changingframe >= 5) {
             this.changingframe = 0;
-            let bombers = this.chooseCell(4);
-            let wolfs = this.chooseCell(3);
+            let bombers = super.chooseCell(4);
+            let wolfs = super.chooseCell(3);
             this.energy--;
             if (bombers) {
                 for (var h in bombers) {
@@ -137,8 +128,8 @@ class Superhero {
                     var by = bombers[h][1];
                     for (var u in bomberArr) {
                         if (bx == bomberArr[u].x && by == bomberArr[u].y) {
-                            var f = [1, 2];
-                            matrix[by][bx] = random(f);
+                            var randchar = [1, 2];
+                            matrix[by][bx] = random(randchar);
                             if (matrix[by][bx] == 1) {
                                 var gras = new Grass(bx, by, 1);
                                 grassArr.push(gras);
@@ -155,18 +146,18 @@ class Superhero {
             }
             if (wolfs) {
                 for (var h in wolfs) {
-                    var bx = wolfs[h][0];
-                    var by = wolfs[h][1];
+                    var wx = wolfs[h][0];
+                    var wy = wolfs[h][1];
                     for (var u in wolfArr) {
-                        if (bx == wolfArr[u].x && by == wolfArr[u].y) {
+                        if (wx == wolfArr[u].x && wy == wolfArr[u].y) {
                             var f = [1, 2];
-                            matrix[by][bx] = random(f);
-                            if (matrix[by][bx] == 1) {
-                                var gras = new Grass(bx, by, 1);
+                            matrix[wy][wx] = random(f);
+                            if (matrix[wy][wx] == 1) {
+                                var gras = new Grass(wx, wy, 1);
                                 grassArr.push(gras);
                             }
-                            else if (matrix[by][bx] == 2) {
-                                var graset = new GrassEater(bx, by, 2);
+                            else if (matrix[wy][wx] == 2) {
+                                var graset = new GrassEater(wx, wy, 2);
                                 grassEaterArr.push(graset);
                             }
                             wolfArr.splice(u, 1);
@@ -177,6 +168,8 @@ class Superhero {
             }
         }
     }
+
+
     savingcharacters() {
         this.savingframe++;
         if (this.energy > 0 && this.savingframe >= 3) {
@@ -246,6 +239,8 @@ class Superhero {
             }
         }
     }
+
+
     die() {
         if (this.energy <= 0) {
             for (var v in superheroArr) {

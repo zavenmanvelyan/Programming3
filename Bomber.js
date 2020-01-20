@@ -1,14 +1,10 @@
-class Bomber {
+class Bomber extends LivingCreature {
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
+        super(x, y, index);
         this.energy = 20;
-        this.index = index;
         this.directions = [];
         this.bombframe = 0;
     }
-
-
 
 
     getNewCoordinates() {
@@ -25,31 +21,19 @@ class Bomber {
     }
 
 
-
-    chooseCell(character) {
+    chooseCell(character){
         this.getNewCoordinates();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        return super.chooseCell(character);
     }
 
-
-
+    
     move() {
         if (this.energy > 0) {
             this.energy--;
             this.getNewCoordinates();
-            var ft = random(this.chooseCell(2));
-            if (ft == undefined) {
-                var newc = random(this.chooseCell(0));
+            var grasseater = random(super.chooseCell(2));
+            if (grasseater == undefined) {
+                var newc = random(super.chooseCell(0));
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 4;
                     matrix[this.y][this.x] = 0;
@@ -61,12 +45,9 @@ class Bomber {
     }
 
 
-
-
-
     mul() {
         this.getNewCoordinates();
-        var newCell = random(this.chooseCell(0));
+        var newCell = random(super.chooseCell(0));
         if (this.energy >= 26 && newCell) {
             var newBomber = new Bomber(newCell[0], newCell[1], this.index);
             bomberArr.push(newBomber);
@@ -76,20 +57,18 @@ class Bomber {
     }
 
 
-
-
     eat() {
         this.getNewCoordinates();
-        var newcg = random(this.chooseCell(2));
-        var newc = random(this.chooseCell(1));
-        if (newcg) {
+        var grasseater = random(super.chooseCell(2));
+        var grass = random(super.chooseCell(1));
+        if (grasseater) {
             this.energy += 2;
             matrix[this.y][this.x] = 0;
-            matrix[newcg[1]][newcg[0]] = 4;
-            this.y = newcg[1];
-            this.x = newcg[0];
-            let newX = newcg[0];
-            let newY = newcg[1];
+            matrix[grasseater[1]][grasseater[0]] = 4;
+            this.y = grasseater[1];
+            this.x = grasseater[0];
+            let newX = grasseater[0];
+            let newY = grasseater[1];
             for (var i in grassEaterArr) {
                 if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                     grassEaterArr.splice(i, 1);
@@ -97,14 +76,14 @@ class Bomber {
                 }
             }
         }
-        else if (newc) {
+        else if (grass) {
             this.energy += 2
             matrix[this.y][this.x] = 0;
-            matrix[newc[1]][newc[0]] = 4;
-            this.y = newc[1];
-            this.x = newc[0];
-            let newX = newc[0];
-            let newY = newc[1];
+            matrix[grass[1]][grass[0]] = 4;
+            this.y = grass[1];
+            this.x = grass[0];
+            let newX = grass[0];
+            let newY = grass[1];
             for (var i in grassArr) {
                 if (newX == grassArr[i].x && newY == grassArr[i].y) {
                     grassArr.splice(i, 1);
@@ -118,9 +97,6 @@ class Bomber {
     }
 
 
-
-
-
     bombing() {
         this.bombframe++;
         if (this.energy > 0 && this.bombframe >= 3) {
@@ -128,23 +104,23 @@ class Bomber {
             this.bombingframe = 0;
             this.energy--;
             var bombdirect;
-            var wfarr = wolfArr.slice(0);
+            var wfrr = wolfArr.slice(0);
             var fwolfes = this.chooseCell(3);
 
             if (fwolfes) {
                 for (var g in fwolfes) {
                     var wx = fwolfes[g][0];
                     var wy = fwolfes[g][1];
-                    for (var h in wfarr) {
-                        if (wfarr[h].x == wx && wfarr[h].y == wy) {
-                            wfarr.splice(h, 1);
+                    for (var h in wfrr) {
+                        if (wfrr[h].x == wx && wfrr[h].y == wy) {
+                            wfrr.splice(h, 1);
                             break;
                         }
                     }
                 }
             }
 
-            var wolf = random(wfarr);
+            var wolf = random(wfrr);
 
             if (wolf) {
                 var wfx = wolf.x;
@@ -216,46 +192,42 @@ class Bomber {
     }
 
 
-
-
-
-
     runfromenemie() {
         if (this.energy > 0) {
             this.energy--;
-            var enemie = random(this.chooseCell(3));
-            var runplace = this.chooseCell(0);
+            var enemie = random(super.chooseCell(3));
+            var runplace = super.chooseCell(0);
             var enemiedirect = [];
             if (enemie && runplace) {
                 for (var h in wolfArr) {
                     if (wolfArr[h].x == enemie[0] && wolfArr[h].y == enemie[1]) {
-                        let x = enemie[0];
-                        let y = enemie[1];
+                        let ex = enemie[0];
+                        let ey = enemie[1];
                         enemiedirect = [
-                            [x - 1, y - 1],
-                            [x, y - 1],
-                            [x + 1, y - 1],
-                            [x - 1, y],
-                            [x + 1, y],
-                            [x - 1, y + 1],
-                            [x, y + 1],
-                            [x + 1, y + 1],
+                            [ex - 1, ey - 1],
+                            [ex, ey - 1],
+                            [ex + 1, ey - 1],
+                            [ex - 1, ey],
+                            [ex + 1, ey],
+                            [ex - 1, ey + 1],
+                            [ex, ey + 1],
+                            [ex + 1, ey + 1],
                         ];
                         break;
                     }
                 }
 
                 for (var r in runplace) {
-                    var tff = true;
+                    var run_place_trfa = true;
                     for (var j in enemiedirect) {
                         if (enemiedirect[j][0] >= 0 && enemiedirect[j][0] < matrix[0].length && enemiedirect[j][1] >= 0 && enemiedirect[j][1] < matrix.length) {
                             if (runplace[r][0] == enemiedirect[j][0] && runplace[r][1] == enemiedirect[j][1]) {
-                                tff = false;
+                                run_place_trfa = false;
                                 break;
                             }
                         }
                     }
-                    if (tff) {
+                    if (run_place_trfa) {
                         matrix[this.y][this.x] = 0;
                         matrix[runplace[r][1]][runplace[r][0]] = 4;
                         this.y = runplace[r][1];
@@ -266,8 +238,6 @@ class Bomber {
             }
         }
     }
-
-
 
 
     die() {

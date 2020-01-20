@@ -1,11 +1,11 @@
-class GrassEater {
+class GrassEater extends LivingCreature {
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
+        super(x, y, index);
         this.energy = 8;
-        this.index = index;
         this.directions = [];
     }
+
+
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -19,28 +19,20 @@ class GrassEater {
         ];
     }
 
-    chooseCell(character) {
+
+    chooseCell(character){
         this.getNewCoordinates();
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+        return super.chooseCell(character);
     }
 
+    
     move() {
         this.energy--;
         if (this.energy > 0) {
             this.getNewCoordinates();
-            var grasses = random(this.chooseCell(1));
-            if (grasses == undefined) {
-                var newc = random(this.chooseCell(0));
+            var grass = random(super.chooseCell(1));
+            if (grass == undefined) {
+                var newc = random(super.chooseCell(0));
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 2;
                     matrix[this.y][this.x] = 0;
@@ -50,9 +42,11 @@ class GrassEater {
             }
         }
     }
+
+
     mul() {
         this.getNewCoordinates();
-        var newCell = random(this.chooseCell(0));
+        var newCell = random(super.chooseCell(0));
         if (this.energy >= 12 && newCell) {
             var newGrassEater = new GrassEater(newCell[0], newCell[1], this.index);
             grassEaterArr.push(newGrassEater);
@@ -61,9 +55,11 @@ class GrassEater {
         }
 
     }
+
+
     eat() {
         this.getNewCoordinates();
-        var grass = random(this.chooseCell(1));
+        var grass = random(super.chooseCell(1));
         if (grass) {
             this.energy += 2;
             matrix[this.y][this.x] = 0;
@@ -82,6 +78,8 @@ class GrassEater {
             this.move();
         }
     }
+
+
     die() {
         if (this.energy <= 0) {
             for (var i in grassEaterArr) {
