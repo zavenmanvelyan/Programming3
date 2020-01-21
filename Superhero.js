@@ -178,9 +178,9 @@ class Superhero extends LivingCreature {
             var grassetarr = grassEaterArr.slice(0);
             var grasseater = random(grassetarr);
             if (grasseater) {
-                let a = grasseater.chooseCell(3);
-                let b = grasseater.chooseCell(4);
-                var gretenemie = random(a.concat(b));
+                let enemiewolfs = grasseater.chooseCell(3);
+                let enemiebombers = grasseater.chooseCell(4);
+                var gretenemie = random(enemiewolfs.concat(enemiebombers));
             }
             if (grasseater && gretenemie) {
                 var gx = grasseater.x;
