@@ -104,7 +104,7 @@ class Bomber extends LivingCreature {
             this.bombingframe = 0;
             this.energy--;
             var bombdirect;
-            var wfrr = wolfArr.slice(0);
+            var wfarr = wolfArr.slice(0);
             var fwolfes = this.chooseCell(3);
 
             if (fwolfes) {
@@ -113,14 +113,14 @@ class Bomber extends LivingCreature {
                     var wy = fwolfes[g][1];
                     for (var h in wfrr) {
                         if (wfrr[h].x == wx && wfrr[h].y == wy) {
-                            wfrr.splice(h, 1);
+                            wfarr.splice(h, 1);
                             break;
                         }
                     }
                 }
             }
 
-            var wolf = random(wfrr);
+            var wolf = random(wfarr);
 
             if (wolf) {
                 var wfx = wolf.x;
