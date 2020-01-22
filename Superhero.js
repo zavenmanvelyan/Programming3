@@ -150,8 +150,8 @@ class Superhero extends LivingCreature {
                     var wy = wolfs[h][1];
                     for (var u in wolfArr) {
                         if (wx == wolfArr[u].x && wy == wolfArr[u].y) {
-                            var f = [1, 2];
-                            matrix[wy][wx] = random(f);
+                            var randchar = [1, 2];
+                            matrix[wy][wx] = random(randchar);
                             if (matrix[wy][wx] == 1) {
                                 var gras = new Grass(wx, wy, 1);
                                 grassArr.push(gras);
