@@ -7,8 +7,7 @@ class LivingCreature {
 
 
     chooseCell(character) {
-        this.getNewCoordinates();
-        var found = [];
+        var found = []; 
         for (var i in this.directions) {
             var x = this.directions[i][0];
             var y = this.directions[i][1];
