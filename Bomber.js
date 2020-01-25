@@ -111,8 +111,8 @@ class Bomber extends LivingCreature {
                 for (var g in fwolfes) {
                     var wx = fwolfes[g][0];
                     var wy = fwolfes[g][1];
-                    for (var h in wfrr) {
-                        if (wfrr[h].x == wx && wfrr[h].y == wy) {
+                    for (var h in wfarr) {
+                        if (wfarr[h].x == wx && wfarr[h].y == wy) {
                             wfarr.splice(h, 1);
                             break;
                         }
