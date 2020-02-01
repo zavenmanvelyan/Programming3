@@ -33,9 +33,11 @@ module.exports = class Bomber extends LivingCreature {
         if (this.energy > 0) {
             this.energy--;
             this.getNewCoordinates();
-            var grasseater = random(super.chooseCell(2));
+            var grasseaters = super.chooseCell(2)
+            var grasseater = grasseaters[Math.floor(Math.random()* grasseaters.length)];
             if (grasseater == undefined) {
-                var newc = random(super.chooseCell(0));
+                var choosecells = super.chooseCell(0)
+                var newc = choosecells[Math.floor(Math.random()* choosecells.length)];
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 4;
                     matrix[this.y][this.x] = 0;
@@ -49,7 +51,8 @@ module.exports = class Bomber extends LivingCreature {
 
     mul() {
         this.getNewCoordinates();
-        var newCell = random(super.chooseCell(0));
+        var choosecells = super.chooseCell(0)
+        var newCell = choosecells[Math.floor(Math.random()* choosecells.length)];
         if (this.energy >= 26 && newCell) {
             var newBomber = new Bomber(newCell[0], newCell[1], this.index);
             bomberArr.push(newBomber);
@@ -61,8 +64,10 @@ module.exports = class Bomber extends LivingCreature {
 
     eat() {
         this.getNewCoordinates();
-        var grasseater = random(super.chooseCell(2));
-        var grass = random(super.chooseCell(1));
+        var grasseaters = super.chooseCell(2)
+        var grasseater = grasseaters[Math.floor(Math.random()* grasseaters.length)];
+        var grasses = super.chooseCell(1)
+        var grass = grasses[Math.floor(Math.random()* grasses.length)];
         if (grasseater) {
             this.energy += 2;
             matrix[this.y][this.x] = 0;
@@ -122,7 +127,7 @@ module.exports = class Bomber extends LivingCreature {
                 }
             }
 
-            var wolf = random(wfarr);
+            var wolf = wfarr[Math.floor(Math.random()* wfarr.length)];
 
             if (wolf) {
                 var wfx = wolf.x;
@@ -197,7 +202,8 @@ module.exports = class Bomber extends LivingCreature {
     runfromenemie() {
         if (this.energy > 0) {
             this.energy--;
-            var enemie = random(super.chooseCell(3));
+            var choosecells = super.chooseCell(3)
+            var enemie = choosecells[Math.floor(Math.random()* choosecells.length)];
             var runplace = super.chooseCell(0);
             var enemiedirect = [];
             if (enemie && runplace) {

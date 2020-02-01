@@ -31,10 +31,13 @@ module.exports = class Wolf extends LivingCreature {
     move() {
         this.energy--;
         if (this.energy > 0) {
-            var grasseater = random(super.chooseCell(2));
-            var bomber = random(super.chooseCell(4));
+            var grasseaters = super.chooseCell(2)
+            var grasseater = grasseaters[Math.floor(Math.random()* grasseaters.length)];
+            var bombers = super.chooseCell(4);
+            var bomber = bombers[Math.floor(Math.random()* bombers.length)];
             if (grasseater == undefined && bomber == undefined) {
-                var newc = random(super.chooseCell(0));
+                var newcells = super.chooseCell(0)
+                var newc = newcells[Math.floor(Math.random()* newcells.length)];
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 3;
                     matrix[this.y][this.x] = 0;
@@ -48,7 +51,8 @@ module.exports = class Wolf extends LivingCreature {
 
     mul() {
         this.getNewCoordinates();
-        var newCell = random(super.chooseCell(0));
+        var choosecells = super.chooseCell(0)
+        var newCell = choosecells[Math.floor(Math.random()* choosecells.length)];
         if (this.energy >= 22 && newCell) {
             var newWolf = new Wolf(newCell[0], newCell[1], this.index);
             wolfArr.push(newWolf);
@@ -60,8 +64,10 @@ module.exports = class Wolf extends LivingCreature {
 
     eat() {
         this.getNewCoordinates();
-        var grasseater = random(super.chooseCell(2));
-        var bomber = random(super.chooseCell(4));
+        var grasseaters = super.chooseCell(2)
+        var grasseater = grasseaters[Math.floor(Math.random()* grasseaters.length)];
+        var bombers = super.chooseCell(4)
+        var bomber = bombers[Math.floor(Math.random()* bombers.length)];
         if (grasseater) {
             this.energy += 2;
             matrix[grasseater[1]][grasseater[0]] = 3;

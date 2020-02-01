@@ -32,10 +32,10 @@ module.exports = class GrassEater extends LivingCreature {
         this.energy--;
         if (this.energy > 0) {
             this.getNewCoordinates();
-            var choosecells = super.chooseCell(1)
-            var grass = choosecells[Math.floor(Math.random()* choosecells.length)];
+            var grasses = super.chooseCell(1)
+            var grass = grasses[Math.floor(Math.random()* grasses.length)];
             if (grass == undefined) {
-                var choosecells = super.chooseCell(1);
+                var choosecells = super.chooseCell(0);
                 var newc = choosecells[Math.floor(Math.random()* choosecells.length)];
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 2;
@@ -64,8 +64,8 @@ module.exports = class GrassEater extends LivingCreature {
 
     eat() {
         this.getNewCoordinates();
-        var choosecells = super.chooseCell(1)
-        var grass = choosecells[Math.floor(Math.random()* choosecells.length)];
+        var grasses = super.chooseCell(1)
+        var grass = grasses[Math.floor(Math.random()* grasses.length)];
         if (grass) {
             this.energy += 2;
             matrix[this.y][this.x] = 0;

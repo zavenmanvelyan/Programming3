@@ -1,4 +1,6 @@
 var LivingCreature = require("./LivingCreature.js");
+var Grass = require("./Grass.js");
+var GrassEater = require("./GrassEater.js");
 
 module.exports = class Superhero extends LivingCreature {
     constructor(x, y, index) {
@@ -51,10 +53,13 @@ module.exports = class Superhero extends LivingCreature {
         if (this.energy > 0) {
             this.energy--;
             this.getNewCoordinates();
-            var wolf = random(super.chooseCell(3));
-            var bomber = random(super.chooseCell(4));
+            var wolfes = super.chooseCell(3)
+            var wolf = wolfes[Math.floor(Math.random()* wolfes.length)];
+            var bombers = super.chooseCell(4)
+            var bomber = bombers[Math.floor(Math.random()* bombers.length)];
             if (wolf == undefined && bomber == undefined) {
-                var newc = random(super.chooseCell(0));
+                var choosecells = super.chooseCell(0)
+                var newc = choosecells[Math.floor(Math.random()* choosecells.length)];
                 if (newc) {
                     matrix[newc[1]][newc[0]] = 5;
                     matrix[this.y][this.x] = 0;
@@ -71,7 +76,8 @@ module.exports = class Superhero extends LivingCreature {
 
     mul() {
         this.getNewCoordinates();
-        var newCell = random(super.chooseCell(0));
+        var choosecells = super.chooseCell(0)
+        var newCell = choosecells[Math.floor(Math.random()* choosecells.length)];
         if (this.energy >= 24 && newCell) {
             var newSuperhero = new Superhero(newCell[0], newCell[1], this.index);
             superheroArr.push(newSuperhero);
@@ -83,8 +89,10 @@ module.exports = class Superhero extends LivingCreature {
 
     eat() {
         this.getNewCoordinates();
-        var wolf = random(super.chooseCell(3));
-        var bomber = random(super.chooseCell(4));
+        var wolfs = super.chooseCell(3);
+        var wolf = wolfs[Math.floor(Math.random()* wolfs.length)];
+        var bombers = super.chooseCell(4);
+        var bomber = bombers[Math.floor(Math.random()* bombers.length)];
         if (wolf) {
             this.energy += 3;
             matrix[wolf[1]][wolf[0]] = 5;
@@ -131,7 +139,7 @@ module.exports = class Superhero extends LivingCreature {
                     for (var u in bomberArr) {
                         if (bx == bomberArr[u].x && by == bomberArr[u].y) {
                             var randchar = [1, 2];
-                            matrix[by][bx] = random(randchar);
+                            matrix[by][bx] = randchar[Math.floor(Math.random()* randchar.length)];
                             if (matrix[by][bx] == 1) {
                                 var gras = new Grass(bx, by, 1);
                                 grassArr.push(gras);
@@ -153,7 +161,7 @@ module.exports = class Superhero extends LivingCreature {
                     for (var u in wolfArr) {
                         if (wx == wolfArr[u].x && wy == wolfArr[u].y) {
                             var randchar = [1, 2];
-                            matrix[wy][wx] = random(randchar);
+                            matrix[wy][wx] = randchar[Math.floor(Math.random()* randchar.length)];
                             if (matrix[wy][wx] == 1) {
                                 var gras = new Grass(wx, wy, 1);
                                 grassArr.push(gras);
@@ -178,13 +186,14 @@ module.exports = class Superhero extends LivingCreature {
             this.energy--;
             this.savingframe = 0;
             var grassetarr = grassEaterArr.slice(0);
-            var grasseater = random(grassetarr);
+            var grasseater = grassetarr[Math.floor(Math.random()* grassetarr.length)];
             if (grasseater) {
                 let enemiewolfs = grasseater.chooseCell(3);
                 let enemiebombers = grasseater.chooseCell(4);
-                var gretenemie = random(enemiewolfs.concat(enemiebombers));
+                var enwolfsandbombers = enemiewolfs.concat(enemiebombers)
+                var grandwolfenemie = enwolfsandbombers[Math.floor(Math.random()* enwolfsandbombers.length)];
             }
-            if (grasseater && gretenemie) {
+            if (grasseater && grandwolfenemie) {
                 var gx = grasseater.x;
                 var gy = grasseater.y;
                 var direct = [
