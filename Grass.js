@@ -1,4 +1,6 @@
-class Grass extends LivingCreature {
+var LivingCreature = require("./LivingCreature.js");
+
+module.exports = class Grass extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
         this.multiply = 0;
@@ -17,7 +19,8 @@ class Grass extends LivingCreature {
 
     mul() {
         this.multiply++;
-        var newCell = random(super.chooseCell(0));
+        var choosecells = super.chooseCell(0)
+        var newCell = choosecells[Math.floor(Math.random()* choosecells.length)];
         if (this.multiply >= 8 && newCell) {
             var newGrass = new Grass(newCell[0], newCell[1], this.index);
             grassArr.push(newGrass);

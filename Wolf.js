@@ -1,4 +1,6 @@
-class Wolf extends LivingCreature {
+var LivingCreature = require("./LivingCreature.js");
+
+module.exports = class Wolf extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
         this.energy = 16;
