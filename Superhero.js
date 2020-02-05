@@ -127,7 +127,14 @@ module.exports = class Superhero extends LivingCreature {
 
     changingcharacter() {
         this.changingframe++;
-        if (this.energy > 0 && this.changingframe >= 5) {
+        var changingframe = 5;
+        if(weather == "summer"){
+            changingframe = 4;
+        }
+        else if(weather == "spring"){
+            changingframe = 3;
+        }
+        if (this.energy > 0 && this.changingframe >= changingframe) {
             this.changingframe = 0;
             let bombers = super.chooseCell(4);
             let wolfs = super.chooseCell(3);
@@ -182,7 +189,14 @@ module.exports = class Superhero extends LivingCreature {
 
     savingcharacters() {
         this.savingframe++;
-        if (this.energy > 0 && this.savingframe >= 3) {
+        var savingframe = 3;
+        if(weather == "winter"){
+            savingframe = 4;
+        }
+        else if(weather == "autumn"){
+            savingframe = 5;
+        }
+        if (this.energy > 0 && this.savingframe >= savingframe) {
             this.energy--;
             this.savingframe = 0;
             var grassetarr = grassEaterArr.slice(0);

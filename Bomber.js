@@ -105,8 +105,15 @@ module.exports = class Bomber extends LivingCreature {
 
 
     bombing() {
+        var bombframeweather = 4;
+        if(weather == "summer"){
+            bombframeweather = 3;
+        }
+        else if(weather == "spring"){
+            bombframeweather = 2;
+        }
         this.bombframe++;
-        if (this.energy > 0 && this.bombframe >= 3) {
+        if (this.energy > 0 && this.bombframe >= bombframeweather) {
             this.getNewCoordinates();
             this.bombingframe = 0;
             this.energy--;
@@ -201,7 +208,15 @@ module.exports = class Bomber extends LivingCreature {
 
     runfromenemie() {
         if (this.energy > 0) {
-            this.energy--;
+            if(weather == "winter"){
+                this.energy-=3;
+            }
+            else if(weather == "autumn"){
+                this.energy-=2;
+            }
+            else{
+                this.energy--;
+            }
             var choosecells = super.chooseCell(3)
             var enemie = choosecells[Math.floor(Math.random()* choosecells.length)];
             var runplace = super.chooseCell(0);

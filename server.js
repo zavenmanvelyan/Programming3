@@ -7,9 +7,12 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
 });
-server.listen(3000);
-// Math.floor(Math.random()* chooseCell.length)
-function getMatrix(rows,columns) {
+
+
+
+weather = "autumn";
+
+function getMatrix(rows, columns) {
     var matrix = [];
     for (let y = 0; y < rows; y++) {
         matrix[y] = [];
@@ -53,7 +56,7 @@ var Wolf = require("./Wolf.js");
 var Bomber = require("./Bomber.js");
 var Superhero = require("./Superhero.js");
 
-matrix = getMatrix(55,55);
+matrix = getMatrix(35, 35);
 
 for (var y = 0; y < matrix.length; y++) {
     for (var x = 0; x < matrix[y].length; x++) {
@@ -111,3 +114,71 @@ function drawserver(){
     io.sockets.emit("matrix",matrix);
 }
 setInterval(drawserver,3000);
+
+io.on('connection', function (socket) {
+    socket.on('earthquake', function (param) {
+        var randomplace_X = Math.floor(Math.random() * 35);
+        var randomplace_Y = Math.floor(Math.random() * 35);
+        var dir = [
+            [randomplace_X - 2, randomplace_Y - 2],
+            [randomplace_X + 2, randomplace_Y - 2],
+            [randomplace_X - 1, randomplace_Y - 1],
+            [randomplace_X + 1, randomplace_Y - 1],
+            [randomplace_X, randomplace_Y],
+            [randomplace_X - 1, randomplace_Y + 1],
+            [randomplace_X + 1, randomplace_Y + 1],
+            [randomplace_X - 2, randomplace_Y + 2],
+            [randomplace_X + 2, randomplace_Y + 2],
+        ]
+        for (var edir in dir) {
+            let earthq_X = dir[edir][0];
+            let earthq_Y = dir[edir][1];
+            if (earthq_X >= 0 && earthq_X < matrix[0].length && earthq_Y >= 0 && earthq_Y < matrix.length) {
+                if (matrix[earthq_Y][earthq_X] == 1) {
+                    for (var n in grassArr) {
+                        if (grassArr[n].x == earthq_X && grassArr[n].y == earthq_Y) {
+                            grassArr.splice(n, 1);
+                            break;
+                        }
+                    }
+                }
+                else if (matrix[earthq_Y][earthq_X] == 2) {
+                    for (var l in grassEaterArr) {
+                        if (grassEaterArr[l].x == earthq_X && grassEaterArr[l].y == earthq_Y) {
+                            grassEaterArr.splice(l, 1);
+                            break;
+                        }
+                    }
+                }
+                else if (matrix[earthq_Y][earthq_X] == 3) {
+                    for (var u in wolfArr) {
+                        if (wolfArr[u].x == earthq_X && wolfArr[u].y == earthq_Y) {
+                            wolfArr.splice(u, 1);
+                            break;
+                        }
+                    }
+                }
+                else if (matrix[earthq_Y][earthq_X] == 4) {
+                    for (var q in bomberArr) {
+                        if (bomberArr[q].x == earthq_X && bomberArr[q].y == earthq_Y) {
+                            bomberArr.splice(q, 1);
+                            break;
+                        }
+                    }
+                }
+                else if (matrix[earthq_Y][earthq_X] == 5) {
+                    for (var j in superheroArr) {
+                        if (superheroArr[j].x == earthq_X && superheroArr[j].y == earthq_Y) {
+                            superheroArr.splice(j, 1);
+                            break;
+                        }
+                    }
+                }
+                matrix[earthq_Y][earthq_X] = 0;
+            }
+        }
+        io.sockets.emit("matrix", matrix);
+    })
+})
+
+server.listen(3000);
