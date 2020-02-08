@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
 
 
 
-weather = "autumn";
+weather = "summer";
 mulledGrasses = 0;
 grassEaterEat = 0;
 deadWolfes = 0;
@@ -88,7 +88,25 @@ for (var y = 0; y < matrix.length; y++) {
         }
     }
 }
+count = 0;
 function drawserver(){
+    count++;
+    if(count == 5){
+        count = 1;
+    }
+    else if(count == 1){
+        weather = "summer";
+    }
+    else if(count == 2){
+        weather = "winter";
+    }
+    else if(count == 3){
+        weather = "spring";
+    }
+    else if(count == 4){
+        weather = "autumn";
+    }
+    io.sockets.emit("weather",weather);
     for (var i in grassArr) {
         grassArr[i].mul();
     }
@@ -186,27 +204,6 @@ io.on('connection', function (socket) {
 })
 
 var obj = {"info": []};
-
-var count = 1;
-function weatherChange(){
-    count++;
-    if(count == 5){
-        count = 1;
-    }
-    else if(count == 1){
-        weather = "summer";
-    }
-    else if(count == 2){
-        weather = "winter";
-    }
-    else if(count == 3){
-        weather = "spring";
-    }
-    else if(count == 4){
-        weather = "autumn";
-    }
-    io.sockets.emit("weather",weather);
-}
 function main(){
     var file = "Statistics.json";
     obj.info.push({"nor_cnvac_grassner":mulledGrasses});
@@ -219,6 +216,5 @@ function main(){
 server.listen(3000);
 
 
-setInterval(weatherChange,3000);
 setInterval(drawserver,3000);
 setInterval(main,6000);

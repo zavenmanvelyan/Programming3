@@ -1,6 +1,4 @@
 var socket = io();
-var m = 55;
-var n = 55;
 var side = 20;
 function setup() {
     frameRate(5);
