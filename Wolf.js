@@ -119,6 +119,7 @@ module.exports = class Wolf extends LivingCreature {
 
     die() {
         if (this.energy <= 0) {
+            deadWolfes++;
             for (var y in wolfArr) {
                 if (this.x == wolfArr[y].x && this.y == wolfArr[y].y) {
                     matrix[this.y][this.x] = 0;

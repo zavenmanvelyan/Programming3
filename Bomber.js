@@ -114,6 +114,7 @@ module.exports = class Bomber extends LivingCreature {
         }
         this.bombframe++;
         if (this.energy > 0 && this.bombframe >= bombframeweather) {
+            numberOfBombs++;
             this.getNewCoordinates();
             this.bombingframe = 0;
             this.energy--;

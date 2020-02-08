@@ -197,6 +197,7 @@ module.exports = class Superhero extends LivingCreature {
             savingframe = 5;
         }
         if (this.energy > 0 && this.savingframe >= savingframe) {
+            superheroSave++;
             this.energy--;
             this.savingframe = 0;
             var grassetarr = grassEaterArr.slice(0);

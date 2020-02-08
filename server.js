@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
+var fs = require('fs');
 app.use(express.static("."));
 app.get('/', function (req, res) {
     res.redirect('index.html');
@@ -11,6 +11,11 @@ app.get('/', function (req, res) {
 
 
 weather = "autumn";
+mulledGrasses = 0;
+grassEaterEat = 0;
+deadWolfes = 0;
+numberOfBombs = 0;
+superheroSave = 0;
 
 function getMatrix(rows, columns) {
     var matrix = [];
@@ -113,7 +118,6 @@ function drawserver(){
     }
     io.sockets.emit("matrix",matrix);
 }
-setInterval(drawserver,3000);
 
 io.on('connection', function (socket) {
     socket.on('earthquake', function (param) {
@@ -181,4 +185,40 @@ io.on('connection', function (socket) {
     })
 })
 
+var obj = {"info": []};
+
+var count = 1;
+function weatherChange(){
+    count++;
+    if(count == 5){
+        count = 1;
+    }
+    else if(count == 1){
+        weather = "summer";
+    }
+    else if(count == 2){
+        weather = "winter";
+    }
+    else if(count == 3){
+        weather = "spring";
+    }
+    else if(count == 4){
+        weather = "autumn";
+    }
+    io.sockets.emit("weather",weather);
+}
+function main(){
+    var file = "Statistics.json";
+    obj.info.push({"nor_cnvac_grassner":mulledGrasses});
+    obj.info.push({"grasseater_kerac_kerparneri_qanak":grassEaterEat});
+    obj.info.push({"merac_wolfer":deadWolfes});
+    obj.info.push({"bomber_qcac_bomberi_qanak":numberOfBombs});
+    obj.info.push({"superhero_save_arac_kerparneri_qanak":superheroSave});
+    fs.writeFileSync(file,JSON.stringify(obj,null,3));
+}
 server.listen(3000);
+
+
+setInterval(weatherChange,3000);
+setInterval(drawserver,3000);
+setInterval(main,6000);
